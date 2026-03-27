@@ -1,0 +1,149 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║         🎛️ SETUP RÁPIDO - PANEL ADMIN PARANAFLY - 5 MINUTOS              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📋 ARCHIVOS QUE RECIBISTE:
+════════════════════════════════════════════════════════════════════════════
+
+✓ admin.html                 → Panel de control (abre esto)
+✓ admin-integration.js       → Conecta con tu página
+✓ ADMIN-GUIA.md            → Guía completa
+✓ GITHUB-PAGES-SETUP.md    → Guía técnica para GitHub
+✓ index.html               → Tu página optimizada
+
+
+🚀 INSTALACIÓN EN 3 PASOS:
+════════════════════════════════════════════════════════════════════════════
+
+PASO 1: Descarga los archivos
+────────────────────────────
+1. Descarga: admin.html
+2. Descarga: admin-integration.js
+
+
+PASO 2: Sube a GitHub
+────────────────────────────
+En tu terminal (en la carpeta de tu repositorio):
+
+  git add admin.html admin-integration.js
+  git commit -m "Agregar panel de administrador"
+  git push origin main
+
+Espera 1-2 minutos para que GitHub Pages se actualice.
+
+
+PASO 3: Conecta con tu página
+────────────────────────────
+Abre tu index.html y busca: </head>
+
+ANTES:
+  </head>
+
+DESPUÉS:
+  <script src="admin-integration.js"></script>
+  </head>
+
+Luego haz:
+  git add index.html
+  git commit -m "Integrar admin panel"
+  git push origin main
+
+
+✅ LISTO! Tu panel admin está funcionando
+════════════════════════════════════════════════════════════════════════════
+
+ACCEDE AL PANEL EN:
+  https://tu-usuario.github.io/tu-repo/admin.html
+
+EJEMPLO:
+  https://pepito.github.io/parana-fly/admin.html
+
+
+🎯 CÓMO USARLO:
+════════════════════════════════════════════════════════════════════════════
+
+1. Abre admin.html
+2. Elige una sección (Hero, Servicios, etc.)
+3. Arrastra imágenes a la zona de carga
+4. Las imágenes se guardan automáticamente
+5. Recarga tu index.html... ¡Las imágenes aparecerán!
+
+
+⚙️ CONFIGURACIÓN AVANZADA (OPCIONAL):
+════════════════════════════════════════════════════════════════════════════
+
+Para sincronizar automáticamente con GitHub:
+
+1. Ve a: https://github.com/settings/tokens
+2. Click: "Generate new token (classic)"
+3. Dale permisos: "repo" (full)
+4. Copia el token
+5. En admin.html, click: "⚙️ Conectar GitHub"
+6. Pega el token
+7. Completa usuario, repo y rama
+8. ¡Listo! Ahora puedes hacer "Sincronizar con GitHub"
+
+
+⚡ TIPS Y TRUCOS:
+════════════════════════════════════════════════════════════════════════════
+
+• Los datos se guardan en tu navegador (localStorage)
+• Usa "📥 Exportar Datos" para hacer backup
+• Usa "📤 Importar Datos" para restaurar
+• Abre DevTools (F12) para debuggear
+• Limpiar caché: Ctrl+Shift+Delete
+
+
+📞 SOLUCIÓN DE PROBLEMAS:
+════════════════════════════════════════════════════════════════════════════
+
+❌ Admin no carga
+  ✓ Verifica que admin.html esté en tu repositorio
+  ✓ Espera 2 minutos después de hacer push
+
+❌ Las imágenes no aparecen en la página
+  ✓ Verifica que admin-integration.js esté en index.html
+  ✓ Recarga la página (Ctrl+Shift+Delete)
+  ✓ Abre DevTools (F12) y busca errores
+
+❌ Necesito cambiar una imagen específica
+  ✓ Abre admin.html
+  ✓ Ve a esa sección
+  ✓ Carga la nueva imagen
+  ✓ Listo, se actualiza automáticamente
+
+
+📖 DOCUMENTACIÓN COMPLETA:
+════════════════════════════════════════════════════════════════════════════
+
+Guía paso a paso:    ADMIN-GUIA.md
+Guía técnica GitHub: GITHUB-PAGES-SETUP.md
+Ejemplos de código:  EJEMPLO-INTEGRACION.md
+
+
+🎉 ¿NECESITAS AYUDA?
+════════════════════════════════════════════════════════════════════════════
+
+1. Lee la documentación (ADMIN-GUIA.md)
+2. Abre DevTools y busca errores (F12)
+3. Verifica que todos los archivos estén en GitHub
+4. Prueba en modo incógnito (evita caché)
+
+
+✨ CARACTERÍSTICAS:
+════════════════════════════════════════════════════════════════════════════
+
+✓ Cargar imágenes en cada sección
+✓ Vista previa en tiempo real
+✓ Guardar automáticamente en navegador
+✓ Sincronizar con GitHub (opcional)
+✓ Exportar/Importar configuración
+✓ Funciona sin servidor
+✓ 100% gratuito
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+¡Tu página ahora es administrable sin tocar código! 🚀
+
+═══════════════════════════════════════════════════════════════════════════════

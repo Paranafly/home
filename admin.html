@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin ParanaFly - Gestor de Contenido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+
+        .btn-success {
+            background: #51cf66;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #40c057;
+        }
+
+        /* TABS */
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: white;
+            border-color: #667eea;
+            color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .tab-btn:hover {
+            background: white;
+            border-color: #667eea;
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+            border-left: 4px solid #667eea;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 40px;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .file-input-label:hover {
+            background: #f0f0ff;
+            border-color: #764ba2;
+        }
+
+        .file-input-label.dragover {
+            background: #e8e8ff;
+            border-color: #764ba2;
+            transform: scale(1.02);
+        }
+
+        /* PREVIEW */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f0f0f0;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .preview-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-item-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .preview-item:hover .preview-item-remove {
+            opacity: 1;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* SECTIONS LIST */
+        .sections-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .section-item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .section-item:hover {
+            background: #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-item-info h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .section-item-info p {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .section-item-count {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* STATUS */
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* LOADER */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f0f0f0;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header-buttons {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+            }
+
+            .tabs-container {
+                justify-content: center;
+            }
+
+            .preview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎣 Admin ParanaFly</h1>
+            <div class="header-buttons">
+                <button class="btn btn-secondary" onclick="openGithubModal()">⚙️ Conectar GitHub</button>
+                <button class="btn btn-primary" onclick="exportData()">📥 Exportar Datos</button>
+                <button class="btn btn-secondary" onclick="importData()">📤 Importar Datos</button>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="switchTab('hero')">🏠 Hero</button>
+            <button class="tab-btn" onclick="switchTab('nosotros')">👥 Nosotros</button>
+            <button class="tab-btn" onclick="switchTab('servicios')">💼 Servicios</button>
+            <button class="tab-btn" onclick="switchTab('programas')">📚 Programas</button>
+            <button class="tab-btn" onclick="switchTab('imagenes')">📸 Galería</button>
+            <button class="tab-btn" onclick="switchTab('contacto')">📧 Contacto</button>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div id="tabContent"></div>
+    </div>
+
+    <!-- MODAL GITHUB -->
+    <div id="githubModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Conectar con GitHub</h2>
+                <button class="modal-close" onclick="closeModal('githubModal')">×</button>
+            </div>
+            <div class="form-group">
+                <label>Token de GitHub (Personal Access Token)</label>
+                <input type="password" id="githubToken" placeholder="ghp_...">
+                <p style="font-size: 12px; color: #999; margin-top: 10px;">
+                    📖 <a href="https://github.com/settings/tokens" target="_blank">Crear token aquí</a>
+                </p>
+            </div>
+            <div class="form-group">
+                <label>Usuario de GitHub</label>
+                <input type="text" id="githubUser" placeholder="tu-usuario">
+            </div>
+            <div class="form-group">
+                <label>Repositorio</label>
+                <input type="text" id="githubRepo" placeholder="parana-fly">
+            </div>
+            <div class="form-group">
+                <label>Rama (branch)</label>
+                <input type="text" id="githubBranch" value="main" placeholder="main">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="connectGithub()">Conectar</button>
+                <button class="btn btn-secondary" onclick="closeModal('githubModal')">Cancelar</button>
+            </div>
+            <div id="githubStatus" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DE PREVIEW GRANDE -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Vista Previa</h2>
+                <button class="modal-close" onclick="closeModal('previewModal')">×</button>
+            </div>
+            <img id="previewImage" src="" style="width: 100%; border-radius: 8px;">
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA MANAGEMENT ============
+        const STORAGE_KEY = 'paranafly_admin_data';
+        let allSections = {
+            hero: { title: 'Sección Hero', images: [] },
+            nosotros: { title: 'Nosotros', images: [] },
+            servicios: { title: 'Servicios', images: [] },
+            programas: { title: 'Programas', images: [] },
+            imagenes: { title: 'Galería', images: [] },
+            contacto: { title: 'Contacto', images: [] }
+        };
+
+        let githubConfig = {
+            token: '',
+            user: '',
+            repo: '',
+            branch: 'main'
+        };
+
+        // Cargar datos al iniciar
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                allSections = JSON.parse(saved);
+            }
+
+            const githubSaved = localStorage.getItem('github_config');
+            if (githubSaved) {
+                githubConfig = JSON.parse(githubSaved);
+            }
+
+            switchTab('hero');
+        }
+
+        // Guardar datos
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(allSections));
+            showStatus('success', '✓ Datos guardados localmente');
+        }
+
+        // ============ UI FUNCTIONS ============
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            renderTab(tab);
+        }
+
+        function renderTab(tab) {
+            const section = allSections[tab];
+            let html = `
+                <div class="content">
+                    <div class="card">
+                        <h2>📤 Cargar Imágenes - ${section.title}</h2>
+                        <div class="card-info">
+                            ${section.images.length} imagen(es) cargada(s) en esta sección
+                        </div>
+
+                        <div class="form-group">
+                            <label>Arrastra imágenes aquí o haz click</label>
+                            <div class="file-input-wrapper" id="dropZone-${tab}">
+                                <label class="file-input-label" id="dropLabel-${tab}">
+                                    <span>📁 Selecciona imágenes</span>
+                                </label>
+                                <input type="file" id="fileInput-${tab}" multiple accept="image/*" onchange="handleFileSelect(event, '${tab}')">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Vista Previa (${section.images.length} imágenes)</label>
+                            <div class="preview-grid" id="preview-${tab}">
+            `;
+
+            section.images.forEach((img, idx) => {
+                html += `
+                    <div class="preview-item" onclick="openPreview('${img}')">
+                        <img src="${img}" alt="Imagen ${idx + 1}">
+                        <button class="preview-item-remove" onclick="removeImage('${tab}', ${idx}); event.stopPropagation();">×</button>
+                    </div>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-success" onclick="syncToGithub('${tab}')">📤 Sincronizar con GitHub</button>
+                            <button class="btn btn-danger" onclick="clearSection('${tab}')">🗑️ Limpiar Sección</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>ℹ️ Información</h2>
+                        <div class="card-info">
+                            <strong>Sección:</strong> ${section.title}<br>
+                            <strong>Imágenes:</strong> ${section.images.length}<br>
+                            <strong>Almacenamiento:</strong> Local Storage
+                        </div>
+
+                        <h3 style="margin: 20px 0 15px 0; font-size: 16px;">Instrucciones</h3>
+                        <ol style="padding-left: 20px; line-height: 1.8; color: #666; font-size: 14px;">
+                            <li>Carga imágenes en cada sección</li>
+                            <li>Previsualiza tus imágenes</li>
+                            <li>Conecta GitHub (opcional)</li>
+                            <li>Sincroniza con tu repositorio</li>
+                            <li>¡Tu página se actualizará automáticamente!</li>
+                        </ol>
+
+                        <h3 style="margin: 25px 0 15px 0; font-size: 16px;">Formatos Recomendados</h3>
+                        <ul style="padding-left: 20px; line-height: 1.8; color: #666; font-size: 14px;">
+                            <li>📷 JPG - Fotos y imágenes complejas</li>
+                            <li>🎨 PNG - Imágenes con transparencia</li>
+                            <li>⚡ WebP - Máxima compresión</li>
+                            <li>📊 Tamaño máximo: 5MB por imagen</li>
+                        </ul>
+
+                        <div class="card-info" style="margin-top: 25px;">
+                            <strong>⚠️ Nota:</strong> Los cambios se guardan automáticamente en tu navegador. Sincroniza con GitHub para actualizar tu sitio público.
+                        </div>
+                    </div>
+                </div>
+
+                <div id="status-${tab}"></div>
+            `;
+
+            document.getElementById('tabContent').innerHTML = html;
+
+            // Configurar drag & drop
+            setupDragDrop(tab);
+        }
+
+        function setupDragDrop(tab) {
+            const dropZone = document.getElementById(`dropZone-${tab}`);
+            const fileInput = document.getElementById(`fileInput-${tab}`);
+            const label = document.getElementById(`dropLabel-${tab}`);
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+                dropZone.addEventListener(event, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(event => {
+                dropZone.addEventListener(event, () => {
+                    label.classList.add('dragover');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach(event => {
+                dropZone.addEventListener(event, () => {
+                    label.classList.remove('dragover');
+                });
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                handleFileSelect({ target: { files } }, tab);
+            });
+
+            label.addEventListener('click', () => fileInput.click());
+        }
+
+        function handleFileSelect(event, tab) {
+            const files = event.target.files;
+            let loaded = 0;
+
+            Array.from(files).forEach((file, idx) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        allSections[tab].images.push(e.target.result);
+                        loaded++;
+
+                        if (loaded === files.length) {
+                            saveData();
+                            renderTab(tab);
+                            showStatus('success', `✓ ${files.length} imagen(es) cargada(s)`);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    showStatus('error', '❌ Solo se aceptan imágenes');
+                }
+            });
+        }
+
+        function removeImage(tab, idx) {
+            if (confirm('¿Eliminar esta imagen?')) {
+                allSections[tab].images.splice(idx, 1);
+                saveData();
+                renderTab(tab);
+            }
+        }
+
+        function clearSection(tab) {
+            if (confirm(`¿Limpiar todas las imágenes de ${allSections[tab].title}?`)) {
+                allSections[tab].images = [];
+                saveData();
+                renderTab(tab);
+                showStatus('success', '✓ Sección limpiada');
+            }
+        }
+
+        function openPreview(src) {
+            document.getElementById('previewImage').src = src;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        // ============ GITHUB INTEGRATION ============
+        function openGithubModal() {
+            document.getElementById('githubModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function connectGithub() {
+            const token = document.getElementById('githubToken').value;
+            const user = document.getElementById('githubUser').value;
+            const repo = document.getElementById('githubRepo').value;
+            const branch = document.getElementById('githubBranch').value;
+
+            if (!token || !user || !repo) {
+                showGithubStatus('error', '❌ Completa todos los campos');
+                return;
+            }
+
+            githubConfig = { token, user, repo, branch };
+            localStorage.setItem('github_config', JSON.stringify(githubConfig));
+
+            showGithubStatus('success', '✓ GitHub conectado correctamente');
+            setTimeout(() => closeModal('githubModal'), 2000);
+        }
+
+        function syncToGithub(tab) {
+            if (!githubConfig.token) {
+                alert('Por favor conecta GitHub primero');
+                openGithubModal();
+                return;
+            }
+
+            const images = allSections[tab].images;
+            if (images.length === 0) {
+                showStatus('error', '❌ No hay imágenes para sincronizar');
+                return;
+            }
+
+            showStatus('info', '⏳ Sincronizando con GitHub...');
+
+            // Crear archivo JSON con las imágenes en base64
+            const data = {
+                section: tab,
+                title: allSections[tab].title,
+                images: images,
+                timestamp: new Date().toISOString(),
+                count: images.length
+            };
+
+            uploadToGithub(tab, data);
+        }
+
+        function uploadToGithub(tab, data) {
+            const { token, user, repo, branch } = githubConfig;
+            const filename = `data/${tab}-images.json`;
+            const content = btoa(JSON.stringify(data, null, 2)); // Base64 encode
+
+            const url = `https://api.github.com/repos/${user}/${repo}/contents/${filename}`;
+
+            // Primero, obtener el SHA actual (si existe)
+            fetch(url, {
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(response => {
+                const sha = response.sha;
+                const message = `Actualizar imágenes de ${tab}`;
+
+                // Luego, actualizar el archivo
+                return fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message,
+                        content,
+                        branch,
+                        sha
+                    })
+                });
+            })
+            .catch(() => {
+                // Si el archivo no existe, crear uno nuevo
+                const message = `Crear imágenes de ${tab}`;
+                return fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message,
+                        content,
+                        branch
+                    })
+                });
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.content) {
+                    showStatus('success', `✓ ${data.count} imagen(es) sincronizadas con GitHub`);
+                } else if (response.message) {
+                    showStatus('error', `❌ Error: ${response.message}`);
+                }
+            })
+            .catch(err => {
+                showStatus('error', `❌ Error al sincronizar: ${err.message}`);
+            });
+        }
+
+        // ============ UTILIDADES ============
+        function exportData() {
+            const data = {
+                sections: allSections,
+                timestamp: new Date().toISOString()
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `paranafly-backup-${Date.now()}.json`;
+            a.click();
+
+            showStatus('success', '✓ Datos exportados');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        allSections = data.sections;
+                        saveData();
+                        loadData();
+                        showStatus('success', '✓ Datos importados correctamente');
+                    } catch (err) {
+                        showStatus('error', '❌ Error al importar: Archivo inválido');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById(`status-${getCurrentTab()}`);
+            if (statusDiv) {
+                statusDiv.innerHTML = `<div class="status ${type} show">${message}</div>`;
+                setTimeout(() => statusDiv.innerHTML = '', 5000);
+            }
+        }
+
+        function showGithubStatus(type, message) {
+            const statusDiv = document.getElementById('githubStatus');
+            statusDiv.innerHTML = `<div class="status ${type} show">${message}</div>`;
+            if (type === 'success') {
+                setTimeout(() => statusDiv.innerHTML = '', 2000);
+            }
+        }
+
+        function getCurrentTab() {
+            const activeTab = document.querySelector('.tab-btn.active');
+            return activeTab ? activeTab.textContent.toLowerCase().split(' ')[1] : 'hero';
+        }
+
+        // Iniciar
+        loadData();
+    </script>
+</body>
+</html>
