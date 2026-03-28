@@ -594,10 +594,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Arrastra imágenes aquí o haz click</label>
+                            <label>🔗 Agregar imagen por URL</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="imageUrl-${tab}" placeholder="https://ejemplo.com/imagen.jpg" style="flex: 1;">
+                                <button class="btn btn-primary" onclick="addImageFromUrl('${tab}')">+ Agregar URL</button>
+                            </div>
+                            <p style="font-size: 12px; color: #999; margin-top: 8px;">Soporta: JPG, PNG, WebP, GIF. Máximo 5MB</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>📁 O arrastra imágenes aquí</label>
                             <div class="file-input-wrapper" id="dropZone-${tab}">
                                 <label class="file-input-label" id="dropLabel-${tab}">
-                                    <span>📁 Selecciona imágenes</span>
+                                    <span>📁 Selecciona imágenes locales</span>
                                 </label>
                                 <input type="file" id="fileInput-${tab}" multiple accept="image/*" onchange="handleFileSelect(event, '${tab}')">
                             </div>
@@ -718,14 +727,79 @@
                         if (loaded === files.length) {
                             saveData();
                             renderTab(tab);
-                            showStatus('success', `✓ ${files.length} imagen(es) cargada(s)`);
+                            showSyncModal('success', '✅ Cargado', `✓ ${files.length} imagen(es) agregada(s)`);
+                            setTimeout(() => closeSyncModal(), 2500);
                         }
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    showStatus('error', '❌ Solo se aceptan imágenes');
+                    showSyncModal('error', 'Error', '❌ Solo se aceptan imágenes');
                 }
             });
+        }
+
+        function addImageFromUrl(tab) {
+            const urlInput = document.getElementById(`imageUrl-${tab}`);
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                showSyncModal('error', 'Sin URL', '❌ Por favor ingresa una URL');
+                return;
+            }
+
+            // Validar que sea URL válida
+            try {
+                new URL(url);
+            } catch (e) {
+                showSyncModal('error', 'URL inválida', '❌ La URL no es válida');
+                return;
+            }
+
+            showSyncModal('loading', 'Cargando...', '⏳ Descargando imagen desde URL...');
+
+            // Cargar imagen desde URL
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            
+            img.onload = () => {
+                // Convertir a canvas y luego a base64
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+
+                // Comprimir si es muy grande
+                let quality = 0.85;
+                let base64 = canvas.toDataURL('image/jpeg', quality);
+
+                // Si la imagen es muy grande, reducir calidad
+                while (base64.length > 5 * 1024 * 1024 && quality > 0.5) {
+                    quality -= 0.1;
+                    base64 = canvas.toDataURL('image/jpeg', quality);
+                }
+
+                if (base64.length > 5 * 1024 * 1024) {
+                    showSyncModal('error', 'Archivo muy grande', '❌ La imagen es muy grande (máximo 5MB)');
+                    return;
+                }
+
+                allSections[tab].images.push(base64);
+                saveData();
+                renderTab(tab);
+                
+                // Limpiar input
+                urlInput.value = '';
+                
+                showSyncModal('success', '✅ ¡Cargada!', '✓ Imagen agregada correctamente desde URL');
+                setTimeout(() => closeSyncModal(), 2500);
+            };
+
+            img.onerror = () => {
+                showSyncModal('error', 'Error al cargar', `❌ No se pudo descargar la imagen.\n\nVerifica que:\n• La URL sea correcta\n• La imagen sea accesible\n• No tenga restricciones CORS`);
+            };
+
+            img.src = url;
         }
 
         function removeImage(tab, idx) {
