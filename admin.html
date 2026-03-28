@@ -621,9 +621,10 @@
                             </div>
                         </div>
 
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-success" onclick="syncToGithub('${tab}')">📤 Sincronizar con GitHub</button>
-                            <button class="btn btn-danger" onclick="clearSection('${tab}')">🗑️ Limpiar Sección</button>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-success" onclick="syncToGithub('${tab}')" style="flex: 1; min-width: 180px;">📤 Sincronizar GitHub</button>
+                            <button class="btn btn-primary" onclick="saveLocalData('${tab}')" style="flex: 1; min-width: 180px;">💾 Guardar Localmente</button>
+                            <button class="btn btn-danger" onclick="clearSection('${tab}')" style="flex: 1; min-width: 180px;">🗑️ Limpiar</button>
                         </div>
                     </div>
 
@@ -635,13 +636,13 @@
                             <strong>Almacenamiento:</strong> Local Storage
                         </div>
 
-                        <h3 style="margin: 20px 0 15px 0; font-size: 16px;">Instrucciones</h3>
-                        <ol style="padding-left: 20px; line-height: 1.8; color: #666; font-size: 14px;">
-                            <li>Carga imágenes en cada sección</li>
-                            <li>Previsualiza tus imágenes</li>
-                            <li>Conecta GitHub (opcional)</li>
-                            <li>Sincroniza con tu repositorio</li>
-                            <li>¡Tu página se actualizará automáticamente!</li>
+                        <h3 style="margin: 20px 0 15px 0; font-size: 16px;">🎯 Guía de Uso</h3>
+                        <ol style="padding-left: 20px; line-height: 2; color: #666; font-size: 13px;">
+                            <li><strong>Carga imágenes</strong> - Arrastra o haz click en el área</li>
+                            <li><strong>Guardar localmente</strong> - Click en "💾 Guardar Localmente" (automático en tu navegador)</li>
+                            <li><strong>Verificar cambios</strong> - Recarga tu página index.html para ver los cambios</li>
+                            <li><strong>(Opcional) Sincronizar GitHub</strong> - Conecta GitHub primero, luego usa "📤 Sincronizar GitHub"</li>
+                            <li><strong>Eliminar imagen</strong> - Click en la "X" roja de la miniatura</li>
                         </ol>
 
                         <h3 style="margin: 25px 0 15px 0; font-size: 16px;">Formatos Recomendados</h3>
@@ -740,8 +741,21 @@
                 allSections[tab].images = [];
                 saveData();
                 renderTab(tab);
-                showStatus('success', '✓ Sección limpiada');
+                showSyncModal('success', '✅ Limpiado', '✓ Sección limpiada correctamente');
+                setTimeout(() => closeSyncModal(), 2000);
             }
+        }
+
+        function saveLocalData(tab) {
+            const images = allSections[tab].images;
+            if (images.length === 0) {
+                showSyncModal('error', 'Sin imágenes', '❌ No hay imágenes para guardar');
+                return;
+            }
+
+            saveData();
+            showSyncModal('success', '✅ ¡Guardado!', `✓ ${images.length} imagen(es) guardada(s) en tu navegador\n\n(Los cambios se actualizan automáticamente en tu página)`);
+            setTimeout(() => closeSyncModal(), 3000);
         }
 
         function openPreview(src) {
@@ -778,18 +792,18 @@
 
         function syncToGithub(tab) {
             if (!githubConfig.token) {
-                alert('Por favor conecta GitHub primero');
-                openGithubModal();
+                showSyncModal('error', 'GitHub no conectado', 'Por favor conecta GitHub primero');
+                setTimeout(() => openGithubModal(), 1500);
                 return;
             }
 
             const images = allSections[tab].images;
             if (images.length === 0) {
-                showStatus('error', '❌ No hay imágenes para sincronizar');
+                showSyncModal('error', 'Sin imágenes', '❌ No hay imágenes para sincronizar en esta sección');
                 return;
             }
 
-            showStatus('info', '⏳ Sincronizando con GitHub...');
+            showSyncModal('loading', 'Sincronizando...', `⏳ Subiendo ${images.length} imagen(es) a GitHub...`);
 
             // Crear archivo JSON con las imágenes en base64
             const data = {
@@ -803,67 +817,180 @@
             uploadToGithub(tab, data);
         }
 
-        function uploadToGithub(tab, data) {
-            const { token, user, repo, branch } = githubConfig;
-            const filename = `data/${tab}-images.json`;
-            const content = btoa(JSON.stringify(data, null, 2)); // Base64 encode
+        async function uploadToGithub(tab, data) {
+            try {
+                const { token, user, repo, branch } = githubConfig;
+                const filename = `data/${tab}-images.json`;
+                const content = btoa(JSON.stringify(data, null, 2)); // Base64 encode
+                const url = `https://api.github.com/repos/${user}/${repo}/contents/${filename}`;
 
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/${filename}`;
-
-            // Primero, obtener el SHA actual (si existe)
-            fetch(url, {
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Content-Type': 'application/json'
+                // Intentar obtener el SHA del archivo existente
+                let sha = null;
+                try {
+                    const getResponse = await fetch(url, {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    if (getResponse.ok) {
+                        const fileData = await getResponse.json();
+                        sha = fileData.sha;
+                    }
+                } catch (e) {
+                    // El archivo no existe, eso es normal
                 }
-            })
-            .then(res => res.json())
-            .then(response => {
-                const sha = response.sha;
-                const message = `Actualizar imágenes de ${tab}`;
 
-                // Luego, actualizar el archivo
-                return fetch(url, {
+                // Subir/actualizar el archivo
+                const message = sha ? `Actualizar imágenes de ${tab}` : `Crear imágenes de ${tab}`;
+                const putBody = {
+                    message,
+                    content,
+                    branch
+                };
+                
+                if (sha) {
+                    putBody.sha = sha;
+                }
+
+                const putResponse = await fetch(url, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
                     },
-                    body: JSON.stringify({
-                        message,
-                        content,
-                        branch,
-                        sha
-                    })
+                    body: JSON.stringify(putBody)
                 });
-            })
-            .catch(() => {
-                // Si el archivo no existe, crear uno nuevo
-                const message = `Crear imágenes de ${tab}`;
-                return fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message,
-                        content,
-                        branch
-                    })
-                });
-            })
-            .then(res => res.json())
-            .then(response => {
+
+                if (!putResponse.ok) {
+                    const errorData = await putResponse.json();
+                    throw new Error(errorData.message || 'Error en GitHub API');
+                }
+
+                const response = await putResponse.json();
+                
                 if (response.content) {
-                    showStatus('success', `✓ ${data.count} imagen(es) sincronizadas con GitHub`);
-                } else if (response.message) {
-                    showStatus('error', `❌ Error: ${response.message}`);
+                    showSyncModal('success', '✅ ¡Sincronizado!', `✓ ${data.count} imagen(es) subida(s) a GitHub exitosamente`);
+                    setTimeout(() => closeSyncModal(), 3000);
+                } else {
+                    throw new Error('Respuesta inesperada de GitHub');
                 }
-            })
-            .catch(err => {
-                showStatus('error', `❌ Error al sincronizar: ${err.message}`);
-            });
+            } catch (err) {
+                console.error('Error en sincronización:', err);
+                
+                let errorMsg = err.message;
+                if (err.message.includes('401')) {
+                    errorMsg = 'Token inválido o expirado. Reconecta GitHub.';
+                } else if (err.message.includes('404')) {
+                    errorMsg = 'Repositorio no encontrado. Verifica usuario y repo.';
+                } else if (err.message.includes('403')) {
+                    errorMsg = 'Permiso denegado. Verifica los permisos del token.';
+                }
+                
+                showSyncModal('error', 'Error al sincronizar', `❌ ${errorMsg}`);
+            }
+        }
+
+        // Modal de sincronización mejorado
+        function showSyncModal(type, title, message) {
+            let icon = '⏳';
+            let bgColor = '#d1ecf1';
+            let textColor = '#0c5460';
+            let borderColor = '#bee5eb';
+
+            if (type === 'success') {
+                icon = '✅';
+                bgColor = '#d4edda';
+                textColor = '#155724';
+                borderColor = '#c3e6cb';
+            } else if (type === 'error') {
+                icon = '❌';
+                bgColor = '#f8d7da';
+                textColor = '#721c24';
+                borderColor = '#f5c6cb';
+            }
+
+            const syncDiv = document.getElementById('syncModal') || createSyncModal();
+            
+            let contentHtml = `
+                <div style="background: ${bgColor}; border: 2px solid ${borderColor}; border-radius: 8px; padding: 40px 30px; text-align: center; color: ${textColor};">
+                    <div style="font-size: 60px; margin-bottom: 20px; line-height: 1;">
+                        ${type === 'loading' ? `
+                            <style>
+                                .big-loader {
+                                    display: inline-block;
+                                    width: 60px;
+                                    height: 60px;
+                                    border: 4px solid ${bgColor};
+                                    border-top: 4px solid #667eea;
+                                    border-radius: 50%;
+                                    animation: bigSpin 1s linear infinite;
+                                }
+                                @keyframes bigSpin {
+                                    0% { transform: rotate(0deg); }
+                                    100% { transform: rotate(360deg); }
+                                }
+                            </style>
+                            <div class="big-loader"></div>
+                        ` : icon}
+                    </div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin: 15px 0 10px 0; color: ${textColor};">${title}</h3>
+                    <p style="font-size: 15px; margin: 0; line-height: 1.6; color: ${textColor};">${message}</p>
+                </div>
+            `;
+            
+            syncDiv.innerHTML = contentHtml;
+            syncDiv.style.display = 'flex';
+        }
+
+        function closeSyncModal() {
+            const syncDiv = document.getElementById('syncModal');
+            if (syncDiv) {
+                syncDiv.style.display = 'none';
+            }
+        }
+
+        function createSyncModal() {
+            const div = document.createElement('div');
+            div.id = 'syncModal';
+            div.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 0;
+                border-radius: 12px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+                z-index: 10000;
+                min-width: 420px;
+                max-width: 550px;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            // Agregar animación
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        opacity: 0;
+                        transform: translate(-50%, -50%) scale(0.9);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translate(-50%, -50%) scale(1);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(div);
+            return div;
         }
 
         // ============ UTILIDADES ============
