@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin ParanaFly - URLs de Imágenes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            margin-top: 15px;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+            font-size: 12px;
+            padding: 8px 16px;
+        }
+
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+
+        .btn-success {
+            background: #51cf66;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #40c057;
+        }
+
+        /* TABS */
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: white;
+            border-color: #667eea;
+            color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .tab-btn:hover {
+            background: white;
+            border-color: #667eea;
+        }
+
+        /* CONTENT */
+        .content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            margin-bottom: 40px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        /* URLS LIST */
+        .urls-list {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .url-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .url-item-content {
+            flex: 1;
+        }
+
+        .url-item-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .url-item-url {
+            font-size: 12px;
+            color: #666;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .url-item-buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: 15px;
+        }
+
+        /* STATUS */
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* PREVIEW */
+        .preview-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .preview-container h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .preview-item {
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            position: relative;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .preview-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .preview-item:hover .preview-item-overlay {
+            opacity: 1;
+        }
+
+        .preview-item-overlay button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* INFO */
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #1565c0;
+            line-height: 1.6;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .url-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .url-item-buttons {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .url-item-buttons button {
+                flex: 1;
+            }
+
+            .preview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎛️ Admin ParanaFly - Gestor de URLs</h1>
+            <p>Administra las URLs de imágenes de cada sección</p>
+            <div style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="exportData()">📥 Exportar URLs</button>
+                <button class="btn btn-secondary" onclick="importData()">📤 Importar URLs</button>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="switchTab('hero')">🏠 Hero</button>
+            <button class="tab-btn" onclick="switchTab('nosotros')">👥 Nosotros</button>
+            <button class="tab-btn" onclick="switchTab('servicios')">💼 Servicios</button>
+            <button class="tab-btn" onclick="switchTab('programas')">📚 Programas</button>
+            <button class="tab-btn" onclick="switchTab('imagenes')">📸 Galería</button>
+            <button class="tab-btn" onclick="switchTab('contacto')">📧 Contacto</button>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <div id="tabContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA MANAGEMENT ============
+        const STORAGE_KEY = 'paranafly_urls';
+        
+        let allSections = {
+            hero: { title: 'Sección Hero', urls: [] },
+            nosotros: { title: 'Nosotros', urls: [] },
+            servicios: { title: 'Servicios', urls: [] },
+            programas: { title: 'Programas', urls: [] },
+            imagenes: { title: 'Galería', urls: [] },
+            contacto: { title: 'Contacto', urls: [] }
+        };
+
+        // Cargar datos
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                allSections = JSON.parse(saved);
+            }
+            switchTab('hero');
+        }
+
+        // Guardar datos
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(allSections));
+            showStatus('success', '✅ Guardado automáticamente');
+        }
+
+        // ============ UI FUNCTIONS ============
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                // Marcar como activo si su onclick contiene el tab actual
+                if (btn.getAttribute('onclick').includes(`'${tab}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+            renderTab(tab);
+        }
+        
+        // Guardar el tab actual
+        let currentTab = 'hero';
+
+        function renderTab(tab) {
+            currentTab = tab; // Actualizar tab actual
+            const section = allSections[tab];
+            
+            let html = `
+                <div class="card">
+                    <h2>🔗 Agregar URL - ${section.title}</h2>
+                    
+                    <div class="info-box">
+                        📝 Tienes una carpeta en GitHub con tus imágenes. Pega aquí la URL completa de cada imagen.
+                        <br><strong>Ejemplo:</strong> https://raw.githubusercontent.com/tu-usuario/tu-repo/main/img/imagen.jpg
+                    </div>
+
+                    <div class="form-group">
+                        <label>Etiqueta (ej: "Imagen 1", "Logo", "Foto Hero")</label>
+                        <input type="text" id="urlLabel-${tab}" placeholder="Nombre descriptivo de la imagen">
+                    </div>
+
+                    <div class="form-group">
+                        <label>URL de la imagen</label>
+                        <textarea id="urlInput-${tab}" placeholder="https://raw.githubusercontent.com/usuario/repo/main/img/imagen.jpg"></textarea>
+                    </div>
+
+                    <button class="btn btn-success" onclick="addUrl('${tab}')">✅ Agregar URL</button>
+                </div>
+
+                <div class="card">
+                    <h2>📋 URLs guardadas (${section.urls.length})</h2>
+                    
+                    ${section.urls.length === 0 ? `
+                        <p style="color: #999; text-align: center; padding: 30px;">
+                            No hay URLs guardadas aún. Agrega una para empezar.
+                        </p>
+                    ` : `
+                        <div class="urls-list">
+                            ${section.urls.map((item, idx) => `
+                                <div class="url-item">
+                                    <div class="url-item-content">
+                                        <div class="url-item-label">${idx + 1}. ${item.label}</div>
+                                        <div class="url-item-url">${item.url}</div>
+                                    </div>
+                                    <div class="url-item-buttons">
+                                        <button class="btn btn-secondary" onclick="editUrl('${tab}', ${idx})" style="padding: 6px 12px; font-size: 12px;">✏️ Editar</button>
+                                        <button class="btn btn-danger" onclick="deleteUrl('${tab}', ${idx})">🗑️</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="preview-container">
+                            <h3>📸 Vista Previa</h3>
+                            <div class="preview-grid">
+                                ${section.urls.map((item, idx) => `
+                                    <div class="preview-item">
+                                        <img src="${item.url}" alt="${item.label}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImagen no carga%3C/text%3E%3C/svg%3E'">
+                                        <div class="preview-item-overlay">
+                                            <button class="btn btn-primary" onclick="copyUrl('${item.url}')" style="padding: 6px 12px;">📋 Copiar</button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `}
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="copySectionUrls('${tab}')">📋 Copiar todas las URLs</button>
+                    <button class="btn btn-danger" onclick="clearSection('${tab}')" style="flex: 1; min-width: 150px;">🗑️ Limpiar sección</button>
+                </div>
+
+                <div id="status-${tab}"></div>
+            `;
+
+            document.getElementById('tabContent').innerHTML = html;
+        }
+
+        // ============ URL MANAGEMENT ============
+        function addUrl(tab) {
+            const label = document.getElementById(`urlLabel-${tab}`).value.trim();
+            const url = document.getElementById(`urlInput-${tab}`).value.trim();
+
+            if (!label) {
+                showStatus('error', '❌ Por favor ingresa una etiqueta');
+                return;
+            }
+
+            if (!url) {
+                showStatus('error', '❌ Por favor ingresa una URL');
+                return;
+            }
+
+            // Validar URL
+            try {
+                new URL(url);
+            } catch (e) {
+                showStatus('error', '❌ La URL no es válida');
+                return;
+            }
+
+            allSections[tab].urls.push({ label, url });
+            saveData();
+            document.getElementById(`urlLabel-${tab}`).value = '';
+            document.getElementById(`urlInput-${tab}`).value = '';
+            renderTab(tab);
+            showStatus('success', `✅ URL agregada: "${label}"`);
+        }
+
+        function deleteUrl(tab, idx) {
+            if (confirm('¿Eliminar esta URL?')) {
+                const deleted = allSections[tab].urls[idx].label;
+                allSections[tab].urls.splice(idx, 1);
+                saveData();
+                renderTab(tab);
+                showStatus('success', `✅ Eliminada: "${deleted}"`);
+            }
+        }
+
+        function editUrl(tab, idx) {
+            const item = allSections[tab].urls[idx];
+            document.getElementById(`urlLabel-${tab}`).value = item.label;
+            document.getElementById(`urlInput-${tab}`).value = item.url;
+            deleteUrl(tab, idx);
+        }
+
+        function clearSection(tab) {
+            if (confirm(`¿Limpiar todas las URLs de ${allSections[tab].title}?`)) {
+                allSections[tab].urls = [];
+                saveData();
+                renderTab(tab);
+                showStatus('success', '✅ Sección limpiada');
+            }
+        }
+
+        function copyUrl(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('✅ URL copiada al portapapeles');
+            });
+        }
+
+        function copySectionUrls(tab) {
+            const urls = allSections[tab].urls.map(item => item.url).join('\n');
+            if (urls) {
+                navigator.clipboard.writeText(urls);
+                showStatus('success', '✅ Todas las URLs copiadas');
+            } else {
+                showStatus('error', '❌ No hay URLs para copiar');
+            }
+        }
+
+        // ============ EXPORT/IMPORT ============
+        function exportData() {
+            const data = {
+                version: '1.0',
+                timestamp: new Date().toISOString(),
+                sections: allSections
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `paranafly-urls-${Date.now()}.json`;
+            a.click();
+            showStatus('success', '✅ Datos exportados');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        allSections = data.sections;
+                        saveData();
+                        loadData();
+                        showStatus('success', '✅ Datos importados correctamente');
+                    } catch (err) {
+                        showStatus('error', '❌ Error: Archivo inválido');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // ============ UTILITIES ============
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById(`status-${currentTab}`);
+            if (statusDiv) {
+                statusDiv.innerHTML = `<div class="status ${type} show">${message}</div>`;
+                setTimeout(() => statusDiv.innerHTML = '', 4000);
+            }
+        }
+
+        // Iniciar
+        loadData();
+    </script>
+</body>
+</html>
