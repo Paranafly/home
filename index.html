@@ -901,7 +901,7 @@ footer {
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 768px) {
-  nav { display: none; }
+  nav { display: none !important; }
   .hero { margin-top: 0; }
   body { padding-bottom: 70px; }
 
@@ -974,9 +974,8 @@ footer {
   .fly-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .cart-drawer { width: 100vw; }
   .cart-fab { bottom: 80px; }
-  #wa-float { bottom: 80px; right: 16px; width: 48px; height: 48px; }
-  .bottom-nav { z-index: 200; }
-  #wa-float { z-index: 201; }
+  #wa-float { bottom: 74px; right: 14px; width: 46px; height: 46px; z-index: 301; }
+  #wa-float svg { width: 24px; height: 24px; }
   .section-comunidad { padding: 64px 24px; }
   .social-row { flex-direction: column; align-items: center; }
   .social-card { width: 100%; max-width: 280px; }
