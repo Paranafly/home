@@ -971,10 +971,10 @@ footer {
   .section-taller { padding: 64px 24px; }
   .taller-grid { grid-template-columns: 1fr; }
   .section-tienda { padding: 64px 24px; }
-  .fly-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .fly-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
   .cart-drawer { width: 100vw; }
   .cart-fab { bottom: 80px; }
-  #wa-float { bottom: 74px; right: 14px; width: 46px; height: 46px; z-index: 301; }
+  #wa-float { bottom: 74px !important; right: 14px; width: 46px; height: 46px; z-index: 301 !important; }
   #wa-float svg { width: 24px; height: 24px; }
   .section-comunidad { padding: 64px 24px; }
   .social-row { flex-direction: column; align-items: center; }
@@ -1102,160 +1102,132 @@ footer {
 </section>
 
 <!-- PROGRAMAS -->
-<section class="section-programas reveal" id="programas">
-  <div class="programas-inner">
-    <div class="section-header">
-      <div class="label" style="justify-content:center">Salidas organizadas</div>
-      <h2 class="section-heading">Programas de <em>Salida</em></h2>
-      <p class="section-sub">📍 La Paz, Entre Ríos · 500 km de Aeropuerto Ezeiza</p>
-    </div>
+<div class="nosotros-wrap">
+  <button class="nosotros-toggle-btn" onclick="toggleNosotros(this)" aria-expanded="false">
+    <span class="nosotros-toggle-label">
+      <span class="nosotros-toggle-eyebrow">Salidas organizadas</span>
+      <span class="nosotros-toggle-title">Programas de <em>Salida</em></span>
+    </span>
+    <svg class="nosotros-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="nosotros-collapse-body">
+    <section class="section-programas reveal" id="programas">
+      <div class="programas-inner">
+        <div class="section-header">
+          <div class="label" style="justify-content:center">Salidas organizadas</div>
+          <h2 class="section-heading">Programas de <em>Salida</em></h2>
+          <p class="section-sub">📍 La Paz, Entre Ríos · 500 km de Aeropuerto Ezeiza</p>
+        </div>
 
-    <!-- Accordion Programa -->
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
-        <div>
-          <div class="accordion-title">🎣 Programa <span>Básico</span></div>
-          <div class="accordion-sub">Ver detalle completo del programa</div>
+        <div class="accordion">
+          <button class="accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+            <div>
+              <div class="accordion-title">🎣 Programa <span>Básico</span></div>
+              <div class="accordion-sub">Ver detalle completo del programa</div>
+            </div>
+            <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body">
+            <ul class="programa-lista">
+              <li>Recibimiento y coordinación con el alojamiento</li>
+              <li>Traslado a predio, estancia o costa del Paraná</li>
+              <li>Preparación y seteo del equipo</li>
+              <li>Charla técnica y selección de moscas</li>
+              <li>Práctica y correcciones en tiempo real</li>
+              <li>Recorrido por la costa con lectura del río</li>
+              <li>Asistencia completa: fotos, videos e hidratación</li>
+              <li>Caminata de 6 a 10 km en entorno silvestre</li>
+            </ul>
+            <div class="info-block">
+              <strong>Almuerzo incluido — Picnic Gourmet</strong>
+              Hielo · Agua · Gaseosa · Vino de la casa · Frutas
+            </div>
+            <div class="info-block">
+              <strong>Estancias disponibles</strong>
+              Desafío · Remanso · La Esmeralda · Río Feliciano
+              <br><em style="font-size:0.75rem;color:#888">(*) Incluye entradas y traslados hasta 30 km a campos privados.</em>
+            </div>
+            <div class="info-block info-block--neutral">
+              <strong>No incluye</strong>
+              Lancha · Alojamiento · Propina · Cena · Seguro de vida · Bebidas especiales · Transfer · Traslados +30 km · Licencia de pesca · Equipos y materiales
+            </div>
+            <p class="program-note"><strong>Nota:</strong> Una vez coordinada la fecha, se toma una seña del 30% de los días contratados.</p>
+            <div class="accordion-actions">
+              <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20consultar%20por%20el%20Programa%20B%C3%A1sico" class="btn btn-fill" target="_blank">💬 Reservar salida</a>
+              <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20solicitar%20el%20tarifario%20de%20ParanaFly" class="btn btn-outline-dark" target="_blank">📋 Solicitar Tarifario</a>
+            </div>
+          </div>
         </div>
-        <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="accordion-body">
-        <ul class="programa-lista">
-          <li>Recibimiento y coordinación con el alojamiento</li>
-          <li>Traslado a predio, estancia o costa del Paraná</li>
-          <li>Preparación y seteo del equipo</li>
-          <li>Charla técnica y selección de moscas</li>
-          <li>Práctica y correcciones en tiempo real</li>
-          <li>Recorrido por la costa con lectura del río</li>
-          <li>Asistencia completa: fotos, videos e hidratación</li>
-          <li>Caminata de 6 a 10 km en entorno silvestre</li>
-        </ul>
-        <div class="info-block">
-          <strong>Almuerzo incluido — Picnic Gourmet</strong>
-          Hielo · Agua · Gaseosa · Vino de la casa · Frutas
-        </div>
-        <div class="info-block">
-          <strong>Estancias disponibles</strong>
-          Desafío · Remanso · La Esmeralda · Río Feliciano
-          <br><em style="font-size:0.75rem;color:#888">(*) Incluye entradas y traslados hasta 30 km a campos privados.</em>
-        </div>
-        <div class="info-block info-block--neutral">
-          <strong>No incluye</strong>
-          Lancha · Alojamiento · Propina · Cena · Seguro de vida · Bebidas especiales · Transfer · Traslados +30 km · Licencia de pesca · Equipos y materiales
-        </div>
-        <p class="program-note"><strong>Nota:</strong> Una vez coordinada la fecha, se toma una seña del 30% de los días contratados.</p>
-        <div class="accordion-actions">
-          <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20consultar%20por%20el%20Programa%20B%C3%A1sico" class="btn btn-fill" target="_blank">💬 Reservar salida</a>
-          <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20solicitar%20el%20tarifario%20de%20ParanaFly" class="btn btn-outline-dark" target="_blank">📋 Solicitar Tarifario</a>
+
+        <div class="prestadores-wrap" style="margin-top:12px">
+          <button class="prestadores-btn" onclick="togglePrestadores(this)" aria-expanded="false">
+            <div>
+              <div class="prestadores-title">🏠 Prestadores de Servicio</div>
+              <div class="prestadores-sub">Alojamientos recomendados en La Paz, Entre Ríos</div>
+            </div>
+            <svg style="color:var(--green);flex-shrink:0;transition:transform 0.35s" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="prestadores-grid" id="prestadoresGrid" style="display:none">
+            <div class="prestador">
+              <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/mediomundo.PNG" alt="La Mediomundo" loading="lazy" style="width:90px;height:90px;object-fit:contain">
+              <div class="prestador-name">La Mediomundo</div>
+              <div class="prestador-desc">Alojamiento</div>
+            </div>
+            <div class="prestador">
+              <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/mi%20buen%20retiro.PNG" alt="Cabañas Mi Buen Retiro" loading="lazy" style="width:90px;height:90px;object-fit:contain">
+              <div class="prestador-name">Cabañas Mi Buen Retiro</div>
+              <div class="prestador-desc">Alojamiento</div>
+            </div>
+            <div class="prestador">
+              <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/cheval.PNG" alt="Le Cheval Blanc" loading="lazy" style="width:90px;height:90px;object-fit:contain">
+              <div class="prestador-name">Le Cheval Blanc</div>
+              <div class="prestador-desc">Gastronomía</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Prestadores -->
-    <div class="prestadores-wrap" style="margin-top:12px">
-      <button class="prestadores-btn" onclick="togglePrestadores(this)" aria-expanded="false">
-        <div>
-          <div class="prestadores-title">🏠 Prestadores de Servicio</div>
-          <div class="prestadores-sub">Alojamientos recomendados en La Paz, Entre Ríos</div>
-        </div>
-        <svg style="color:var(--green);flex-shrink:0;transition:transform 0.35s" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="prestadores-grid" id="prestadoresGrid" style="display:none">
-        <div class="prestador">
-          <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/mediomundo.PNG" alt="La Mediomundo" loading="lazy" style="width:90px;height:90px;object-fit:contain">
-          <div class="prestador-name">La Mediomundo</div>
-          <div class="prestador-desc">Alojamiento</div>
-        </div>
-        <div class="prestador">
-          <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/mi%20buen%20retiro.PNG" alt="Cabañas Mi Buen Retiro" loading="lazy" style="width:90px;height:90px;object-fit:contain">
-          <div class="prestador-name">Cabañas Mi Buen Retiro</div>
-          <div class="prestador-desc">Alojamiento</div>
-        </div>
-        <div class="prestador">
-          <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/cheval.PNG" alt="Le Cheval Blanc" loading="lazy" style="width:90px;height:90px;object-fit:contain">
-          <div class="prestador-name">Le Cheval Blanc</div>
-          <div class="prestador-desc">Gastronomía</div>
-        </div>
-      </div>
-    </div>
+    </section>
   </div>
-</section>
+</div>
 
 <!-- GALERÍA -->
-<section class="section-galeria reveal" id="galeria">
-  <div class="galeria-inner">
-    <div class="galeria-header">
-      <div class="label label--light">El río en fotos</div>
-      <h2 class="galeria-heading">Galería <em>ParanaFly</em></h2>
-    </div>
-    <div class="masonry-grid">
-      <div class="masonry-item" onclick="openLightbox(0)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(1).jpg" alt="Costa del Paraná" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Costa</span></div>
-        <div class="masonry-zoom">⤢</div>
+<div class="nosotros-wrap" style="background:var(--dark)">
+  <button class="nosotros-toggle-btn" onclick="toggleNosotros(this)" aria-expanded="false" style="background:#1a2a0a;border-color:rgba(122,191,69,0.15)">
+    <span class="nosotros-toggle-label">
+      <span class="nosotros-toggle-eyebrow" style="color:rgba(255,255,255,0.5)">El río en fotos</span>
+      <span class="nosotros-toggle-title" style="color:#fff">Galería <em>ParanaFly</em></span>
+    </span>
+    <svg class="nosotros-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7abf45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="nosotros-collapse-body">
+    <section class="section-galeria reveal" id="galeria">
+      <div class="galeria-inner">
+        <div class="galeria-header">
+          <div class="label label--light">El río en fotos</div>
+          <h2 class="galeria-heading">Galería <em>ParanaFly</em></h2>
+        </div>
+        <div class="masonry-grid">
+          <div class="masonry-item" onclick="openLightbox(0)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(1).jpg" alt="Costa del Paraná" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Costa</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(1)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(2).jpg" alt="Vadeo" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Vadeo</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(2)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(3).jpg" alt="Selva entrerriana" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Selva</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(3)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(4).jpg" alt="Captura" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Captura</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(4)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(5).jpg" alt="Río Paraná" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Río</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(5)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(6).jpg" alt="Ambiente" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Ambiente</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(6)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(7).jpg" alt="Mosca Tucunaré" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Mosca</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(7)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(8).jpg" alt="La Paz" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">La Paz</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(8)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(9).jpg" alt="Zona de vadeo" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Vadeo</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(9)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(10).jpg" alt="Paraná desde la costa" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Costa</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(10)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(11).jpg" alt="Entorno selvático" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Monte</span></div><div class="masonry-zoom">⤢</div></div>
+          <div class="masonry-item" onclick="openLightbox(11)"><img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(12).jpg" alt="Combo Muddler" loading="lazy"><div class="masonry-overlay"><span class="masonry-label">Muddler</span></div><div class="masonry-zoom">⤢</div></div>
+        </div>
+        <div class="galeria-footer">
+          <p class="galeria-note">📷 Mandanos tus fotos por WhatsApp y las sumamos a la galería</p>
+          <span class="galeria-count">12 fotos · Hacé clic para ampliar</span>
+        </div>
       </div>
-      <div class="masonry-item" onclick="openLightbox(1)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(2).jpg" alt="Vadeo" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Vadeo</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(2)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(3).jpg" alt="Selva entrerriana" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Selva</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(3)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(4).jpg" alt="Captura" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Captura</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(4)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(5).jpg" alt="Río Paraná" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Río</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(5)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(6).jpg" alt="Ambiente" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Ambiente</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(6)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(7).jpg" alt="Mosca Tucunaré" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Mosca</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(7)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(8).jpg" alt="La Paz" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">La Paz</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(8)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(9).jpg" alt="Zona de vadeo" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Vadeo</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(9)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(10).jpg" alt="Paraná desde la costa" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Costa</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(10)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(11).jpg" alt="Entorno selvático" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Monte</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-      <div class="masonry-item" onclick="openLightbox(11)">
-        <img src="https://raw.githubusercontent.com/Paranafly/home/refs/heads/main/imagenes/descarga%20(12).jpg" alt="Combo Muddler" loading="lazy">
-        <div class="masonry-overlay"><span class="masonry-label">Muddler</span></div>
-        <div class="masonry-zoom">⤢</div>
-      </div>
-    </div>
-    <div class="galeria-footer">
-      <p class="galeria-note">📷 Mandanos tus fotos por WhatsApp y las sumamos a la galería</p>
-      <span class="galeria-count">12 fotos · Hacé clic para ampliar</span>
-    </div>
+    </section>
   </div>
-</section>
+</div>
 
 <!-- MAPA -->
 <section class="section-mapa">
@@ -1302,15 +1274,23 @@ footer {
 </section>
 
 <!-- TIENDA DE MOSCAS -->
-<section class="section-tienda reveal" id="tienda">
-  <div class="tienda-inner">
-    <div class="section-header">
-      <div class="label label--light" style="justify-content:center">Atadas a mano · La Paz, Entre Ríos</div>
-      <h2 class="section-heading section-heading--light" style="margin-top:16px">Moscas <em>ParanaFly</em></h2>
-      <p class="tienda-sub">Patrones probados en el Paraná y sus afluentes.</p>
-    </div>
-
-    <div class="fly-grid" id="flyGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto 48px">
+<div class="nosotros-wrap" style="background:var(--dark)">
+  <button class="nosotros-toggle-btn" onclick="toggleNosotros(this)" aria-expanded="false" style="background:#1a2a0a;border-color:rgba(122,191,69,0.15)">
+    <span class="nosotros-toggle-label">
+      <span class="nosotros-toggle-eyebrow" style="color:rgba(255,255,255,0.5)">Atadas a mano · La Paz, Entre Ríos</span>
+      <span class="nosotros-toggle-title" style="color:#fff">Moscas <em>ParanaFly</em></span>
+    </span>
+    <svg class="nosotros-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7abf45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="nosotros-collapse-body">
+    <section class="section-tienda reveal" id="tienda">
+      <div class="tienda-inner">
+        <div class="section-header">
+          <div class="label label--light" style="justify-content:center">Atadas a mano · La Paz, Entre Ríos</div>
+          <h2 class="section-heading section-heading--light" style="margin-top:16px">Moscas <em>ParanaFly</em></h2>
+          <p class="tienda-sub">Patrones probados en el Paraná y sus afluentes.</p>
+        </div>
+        <div class="fly-grid" id="flyGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto 48px">
 
       <!-- MOSCA 1: Woolly Bugger -->
       <div style="position:relative;background:#1a2a0a;border:1px solid rgba(122,191,69,0.15);border-top:3px solid #4a7a28;overflow:hidden">
@@ -1406,11 +1386,13 @@ footer {
     </div>
 
     <div class="tienda-cta">
-      <p>¿Buscás un patrón específico? Consultanos.</p>
-      <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20consultar%20por%20moscas%20disponibles" class="btn btn-fill" target="_blank">💬 Consultar disponibilidad</a>
-    </div>
+          <p>¿Buscás un patrón específico? Consultanos.</p>
+          <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20consultar%20por%20moscas%20disponibles" class="btn btn-fill" target="_blank">💬 Consultar disponibilidad</a>
+        </div>
+      </div>
+    </section>
   </div>
-</section>
+</div>
 
 <!-- CARRITO LATERAL -->
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
@@ -1757,12 +1739,15 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 // === BOTTOM NAV ACTIVE ===
 const sections = document.querySelectorAll('section[id]');
 window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+  let current = 'hero';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
   document.querySelectorAll('.bottom-nav a').forEach(a => {
     a.classList.toggle('active', a.getAttribute('href') === '#' + current);
   });
 }, { passive: true });
+
+// Marcar activo al cargar
+document.querySelectorAll('.bottom-nav a')[0]?.classList.add('active');
 </script>
 </body>
 </html>
