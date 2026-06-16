@@ -878,7 +878,51 @@ footer {
 #lightboxImg { max-width: 85vw; max-height: 85vh; border-radius: 2px; display: block; }
 
 /* === BOTTOM NAV (MOBILE) === */
-.bottom-nav { display: none; }
+.bottom-nav {
+  display: flex; position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #241a08;
+  border-top: 3px solid #6b4a18;
+  z-index: 300; height: 64px;
+}
+.bottom-nav::before {
+  content: '';
+  position: absolute;
+  top: -6px; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(to top, rgba(10,6,0,0.55), transparent);
+  pointer-events: none;
+}
+.bottom-nav a {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  color: rgba(255,255,255,0.35);
+  font-size: 0.48rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color 0.2s, background 0.2s;
+  border-right: 1px solid rgba(107,74,24,0.25);
+  padding: 6px 2px 8px;
+  position: relative;
+}
+.bottom-nav a:last-child { border-right: none; }
+.bottom-nav a.active, .bottom-nav a:active {
+  color: #d4922e;
+  background: rgba(107,74,24,0.18);
+}
+.bottom-nav a.active::before, .bottom-nav a:active::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: 50%;
+  transform: translateX(-50%);
+  width: 28px; height: 3px;
+  background: #c8842a;
+  border-radius: 0 0 4px 4px;
+}
+.bnav-icon { font-size: 1.3rem; }
+
+@media (min-width: 769px) {
+  .bottom-nav { display: none !important; }
+  #wa-float { bottom: 22px !important; }
+}
 
 /* === FADE IN === */
 .reveal {
@@ -905,47 +949,8 @@ footer {
   .hero { margin-top: 0; }
   body { padding-bottom: 70px; }
 
-  .bottom-nav {
-    display: flex; position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: #241a08;
-    border-top: 3px solid #6b4a18;
-    z-index: 300; height: 64px;
-  }
-  .bottom-nav::before {
-    content: '';
-    position: absolute;
-    top: -6px; left: 0; right: 0;
-    height: 5px;
-    background: linear-gradient(to top, rgba(10,6,0,0.55), transparent);
-    pointer-events: none;
-  }
-  .bottom-nav a {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 3px;
-    color: rgba(255,255,255,0.35);
-    font-size: 0.48rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    transition: color 0.2s, background 0.2s;
-    border-right: 1px solid rgba(107,74,24,0.25);
-    padding: 6px 2px 8px;
-    position: relative;
-  }
-  .bottom-nav a:last-child { border-right: none; }
-  .bottom-nav a.active, .bottom-nav a:active {
-    color: #d4922e;
-    background: rgba(107,74,24,0.18);
-  }
-  .bottom-nav a.active::before, .bottom-nav a:active::before {
-    content: '';
-    position: absolute;
-    top: -3px; left: 50%;
-    transform: translateX(-50%);
-    width: 28px; height: 3px;
-    background: #c8842a;
-    border-radius: 0 0 4px 4px;
-  }
-  .bnav-icon { font-size: 1.3rem; }
-
+  #wa-float { bottom: 74px !important; right: 14px; width: 46px; height: 46px; z-index: 301 !important; }
+  #wa-float svg { width: 24px; height: 24px; }
   .hero { min-height: 100svh; }
   .hero-content { grid-template-columns: 1fr; padding: 80px 24px 48px; gap: 32px; text-align: center; }
   .hero-eyebrow { justify-content: center; }
@@ -1100,6 +1105,27 @@ footer {
     </div>
   </div>
 </section>
+
+<!-- VIDEO SHORT -->
+<div style="background:var(--forest);padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:20px">
+  <div class="label label--light" style="justify-content:center">El río en acción</div>
+  <a href="https://youtube.com/shorts/UzlmYLUP-nQ" target="_blank" rel="noopener"
+     style="width:100%;max-width:340px;aspect-ratio:9/16;border-radius:12px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.5);display:block;position:relative;background:#000">
+    <img
+      src="https://img.youtube.com/vi/UzlmYLUP-nQ/maxresdefault.jpg"
+      alt="ParanaFly — Ver video en YouTube"
+      style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.85"
+      onerror="this.src='https://img.youtube.com/vi/UzlmYLUP-nQ/hqdefault.jpg'"
+    >
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+      <div style="width:64px;height:64px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" style="margin-left:4px"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.7)">Ver en YouTube</div>
+  </a>
+  <p style="font-size:0.82rem;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-align:center;font-style:italic">La Paz · Entre Ríos · Río Paraná</p>
+</div>
 
 <!-- PROGRAMAS -->
 <div class="nosotros-wrap">
