@@ -1345,32 +1345,37 @@ function loadYT() {
 </section>
 
 <!-- TALLER -->
-<section class="section-taller reveal" id="taller">
-  <div class="taller-inner">
-    <div class="section-header">
-      <div class="label" style="justify-content:center">Aprendé con nosotros</div>
-      <h2 class="section-heading" style="margin-top:16px">Taller de <em>Pesca con Mosca</em></h2>
-      <p style="font-size:0.95rem;color:var(--muted);font-style:italic;margin-top:8px">Casteo, atado y los mejores combos para el Paraná</p>
-    </div>
-
-    <div class="taller-grid">
-      <div class="taller-card">
-        <span class="taller-icon">🪰</span>
-        <h3 class="taller-name">Clases de Atado de Moscas</h3>
-        <p class="taller-desc">Aprendé a atar patrones probados para Dorado, Surubí, Pirá Pytá, Pacú, Pacú reloj, Manduvé y muchas especies más. Materiales seleccionados y técnicas prácticas para que cada mosca tenga la efectividad que el río exige.</p>
+<div class="nosotros-wrap">
+  <button class="nosotros-toggle-btn" onclick="toggleNosotros(this)" aria-expanded="false">
+    <span class="nosotros-toggle-label">
+      <span class="nosotros-toggle-eyebrow">Aprendé con nosotros</span>
+      <span class="nosotros-toggle-title">Taller de <em>Pesca con Mosca</em></span>
+    </span>
+    <svg class="nosotros-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="nosotros-collapse-body">
+    <section class="section-taller reveal" id="taller">
+      <div class="taller-inner">
+        <div class="taller-grid">
+          <div class="taller-card">
+            <span class="taller-icon">🪰</span>
+            <h3 class="taller-name">Clases de Atado de Moscas</h3>
+            <p class="taller-desc">Aprendé a atar patrones probados para Dorado, Surubí, Pirá Pytá, Pacú, Pacú reloj, Manduvé y muchas especies más. Materiales seleccionados y técnicas prácticas para que cada mosca tenga la efectividad que el río exige.</p>
+          </div>
+          <div class="taller-card">
+            <span class="taller-icon">🎣</span>
+            <h3 class="taller-name">Clases de Casteo</h3>
+            <p class="taller-desc">Fundamentos y técnica para pescar en la selva entrerriana: roll cast, back cast, doble haul, y manejo en espacios reducidos con vegetación cerrada. Para principiantes y pescadores con experiencia.</p>
+          </div>
+        </div>
+        <div class="taller-cta">
+          <p>Consultas sobre clases y horarios</p>
+          <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20consultar%20por%20el%20Taller" class="btn btn-fill" target="_blank">💬 Consultar por WhatsApp</a>
+        </div>
       </div>
-      <div class="taller-card">
-        <span class="taller-icon">🎣</span>
-        <h3 class="taller-name">Clases de Casteo</h3>
-        <p class="taller-desc">Fundamentos y técnica para pescar en la selva entrerriana: roll cast, back cast, doble haul, y manejo en espacios reducidos con vegetación cerrada. Para principiantes y pescadores con experiencia.</p>
-      </div>
-    </div>
-    <div class="taller-cta">
-      <p>Consultas sobre clases y horarios</p>
-      <a href="https://wa.me/5493437408435?text=Hola%20Bruno!%20Quiero%20consultar%20por%20el%20Taller" class="btn btn-fill" target="_blank">💬 Consultar por WhatsApp</a>
-    </div>
+    </section>
   </div>
-</section>
+</div>
 
 <!-- TIENDA DE MOSCAS -->
 <div class="nosotros-wrap" style="background:var(--dark)">
